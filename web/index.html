@@ -3,7 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Note-Name Helper</title>
+  <title>Clair de Lune · Note-Name Helper</title>
+  <meta name="description" content="Point at any column of notes in Debussy's Clair de Lune to see their names, with the keys lit up on a piano keyboard.">
+  <!-- Just the accidental glyphs (♭ ♮ ♯ 𝄪 𝄫), so they render on every system. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Music&amp;text=%E2%99%AD%E2%99%AE%E2%99%AF%F0%9D%84%AA%F0%9D%84%AB&amp;display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -44,6 +49,16 @@
       <kbd>←</kbd> <kbd>→</kbd> column · <kbd>↑</kbd> <kbd>↓</kbd> system ·
       <kbd>Home</kbd> <kbd>End</kbd> · <kbd>Esc</kbd> clear
     </p>
+
+    <footer class="about">
+      <p>A reading aid: work out the notes from the staff yourself, then point at them to check.</p>
+      <p>
+        Debussy, <i>Clair de Lune</i>. Score from the
+        <a href="https://www.ibiblio.org/mutopia/cgibin/piece-info.cgi?id=1778">Mutopia Project</a>
+        (public domain), engraved with <a href="https://lilypond.org">LilyPond</a>.
+        <a href="https://github.com/dharmatech/2026-10-04-sheet-music">Source on GitHub</a>.
+      </p>
+    </footer>
   </aside>
 
   <script src="app.js"></script>

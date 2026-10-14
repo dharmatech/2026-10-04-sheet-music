@@ -7,7 +7,7 @@
 // ---------- per-score settings ----------
 
 const SCORE = {
-  dir: '../build/svg/',
+  dir: 'svg/',
   manifest: 'clair-de-lune.json',
   // Which hand each printed staff belongs to.
   staffHand: { upper: 'rh', lower: 'lh' },
@@ -381,8 +381,10 @@ function render() {
   const groupsEl = document.getElementById('groups');
 
   if (!current) {
-    whereEl.textContent = 'Point at a column of notes';
-    subEl.textContent = 'or press → to step through the score';
+    const touch = matchMedia('(hover: none)').matches;
+    whereEl.textContent = touch ? 'Tap a column of notes' : 'Point at a column of notes';
+    subEl.textContent = touch ? 'or use the → button to step through the score'
+                              : 'or press → to step through the score';
     groupsEl.replaceChildren();
     drawPianoMarks([], []);
     return;
@@ -596,7 +598,7 @@ async function main() {
   } catch (err) {
     status.classList.add('error');
     status.textContent = `Could not load the score.\n${err.message}\n\n` +
-      'Run `make svg`, then serve the project root (`make serve`) and open /web/.';
+      'Run `make serve` (it builds the SVGs into web/svg/) and open http://localhost:8000/.';
     console.error(err);
   }
 }

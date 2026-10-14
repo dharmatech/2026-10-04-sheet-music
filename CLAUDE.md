@@ -7,17 +7,22 @@ Design background, goals and the Phase 1 / Phase 2 plan are in [HANDOFF.md](HAND
 Needs `lilypond` (Ubuntu package, 2.24.4) and `python3`. Ask before installing anything else.
 
 ```
-make svg      # tagged SVG pages + manifest → build/svg/
+make svg      # tagged SVG pages + manifest → web/svg/ (gitignored)
 make pdf      # plain PDF → build/clair-de-lune.pdf
-make serve    # http://localhost:8000/web/  (SVGs can't load from file://)
+make serve    # builds svg, serves web/ at http://localhost:8000/  (SVGs can't load from file://)
 ```
+
+## Deployment
+
+Live at https://dharmatech.github.io/2026-10-04-sheet-music/ (repo: github.com/dharmatech/2026-10-04-sheet-music).
+`.github/workflows/pages.yml` runs on every push to `master`: it installs LilyPond from apt, runs `make svg` and publishes `web/` to GitHub Pages. Pages is set to "GitHub Actions" as its source. Generated SVGs are never committed.
 
 ## Layout
 
 - `scores/original/` — Mutopia files exactly as downloaded (2.12.3 source, PDF, MIDI). Don't edit.
 - `scores/clair-de-lune.ly` — `convert-ly` output for 2.24. Otherwise unchanged.
 - `lilypond/tag-noteheads.ily` — Scheme engraver that writes `data-*` attributes onto each NoteHead and StaffSymbol in the SVG. It's loaded with `-dinclude-settings`, so the score file stays clean. The header comment lists every attribute.
-- `web/` — `index.html`, `app.js`, `style.css`. No build step and no dependencies.
+- `web/` — the whole site: `index.html`, `app.js`, `style.css`, plus the generated `svg/`. No JS build step or dependencies; the only external resource is a Google Fonts subset of Noto Music for the accidental glyphs.
 
 ## How it works
 

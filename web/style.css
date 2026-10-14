@@ -219,6 +219,17 @@ kbd {
   background: #fff;
 }
 
+.about {
+  margin-top: auto;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.about p { margin: 0 0 6px; }
+.about a { color: inherit; }
+
 /* ---------- narrow screens: panel becomes a bottom sheet ---------- */
 
 @media (max-width: 900px) {
