@@ -1,0 +1,242 @@
+:root {
+  --bg: #e9e7e2;
+  --paper: #fffefb;
+  --ink: #1d1d1f;
+  --muted: #6b6b70;
+  --line: #d6d3cc;
+  --panel: #fbfaf7;
+
+  --rh: #1f5fd1;
+  --lh: #c4520c;
+  --rh-held: #8fb0ea;
+  --lh-held: #eba77c;
+  --column: rgba(255, 205, 64, 0.32);
+  --offkey: #7a3ad6;
+
+  --panel-width: 380px;
+  font-family: system-ui, -apple-system, "Segoe UI", Ubuntu, sans-serif;
+  color: var(--ink);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--panel-width);
+  min-height: 100vh;
+}
+
+/* ---------- score ---------- */
+
+#score {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+#status { color: var(--muted); }
+#status.error { color: #b42318; white-space: pre-wrap; }
+
+.page {
+  width: 100%;
+  max-width: 920px;
+  background: var(--paper);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 6px 24px rgba(0, 0, 0, 0.06);
+}
+
+.page svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--ink);
+  cursor: crosshair;
+}
+
+.col-hl { fill: var(--column); }
+
+/* Noteheads draw with fill="currentColor", so `color` recolors them. */
+.page g.note { transition: color 80ms; }
+.page g.note.is-struck.g-rh { color: var(--rh); }
+.page g.note.is-struck.g-lh { color: var(--lh); }
+.page g.note.is-held.g-rh { color: var(--rh-held); }
+.page g.note.is-held.g-lh { color: var(--lh-held); }
+
+/* ---------- panel ---------- */
+
+#panel {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--panel);
+  border-left: 1px solid var(--line);
+  padding: 16px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.where {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+.where-main { font-size: 1.05rem; font-weight: 600; }
+.where-sub { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+
+.step-buttons { display: flex; gap: 6px; flex: none; }
+.step-buttons button {
+  font: inherit;
+  font-size: 1rem;
+  width: 34px;
+  height: 30px;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.step-buttons button:hover { background: #f1efe9; }
+
+/* ---------- piano ---------- */
+
+#piano { width: 100%; height: auto; display: block; }
+#piano .wk { fill: #fff; stroke: #8a8780; stroke-width: 0.6; }
+#piano .bk { fill: #2b2b2e; }
+#piano .mark-rh { fill: var(--rh); }
+#piano .mark-lh { fill: var(--lh); }
+#piano .mark-rh.held { fill: var(--rh-held); }
+#piano .mark-lh.held { fill: var(--lh-held); }
+#piano .clabel { font-size: 6.5px; fill: var(--muted); text-anchor: middle; }
+#piano .clabel.middle { fill: var(--ink); font-weight: 700; }
+
+/* ---------- note groups ---------- */
+
+#groups { display: flex; flex-direction: column; gap: 12px; }
+
+.group {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--group-color);
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px 12px;
+}
+.group.g-rh { --group-color: var(--rh); --group-held: var(--rh-held); }
+.group.g-lh { --group-color: var(--lh); --group-held: var(--lh-held); }
+
+.group h3 {
+  margin: 0 0 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+}
+.group h3 .hand { color: var(--group-color); }
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  min-height: 1.9rem;
+}
+.row + .row { margin-top: 6px; }
+.row-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  width: 2.6rem;
+  flex: none;
+}
+.empty { color: var(--muted); font-size: 0.9rem; }
+
+.chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #fff;
+  background: var(--group-color);
+  font-variant-numeric: tabular-nums;
+}
+.chip.held {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--ink);
+  background: transparent;
+  border: 1.5px dashed var(--group-held);
+}
+.chip .acc { font-family: "Noto Music", FreeSerif, serif; font-weight: 400; }
+.chip .oct { font-size: 0.68em; font-weight: 500; opacity: 0.9; }
+.chip .tag {
+  font-size: 0.6rem;
+  font-weight: 600;
+  margin-left: 4px;
+  padding: 0 4px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.25);
+  align-self: center;
+}
+.chip.held .tag { background: #f1efe9; }
+.chip.offkey .acc {
+  background: #fff;
+  color: var(--offkey);
+  border-radius: 3px;
+  padding: 0 2px;
+  margin: 0 1px;
+}
+.chip.held.offkey .acc { background: #f1e9fd; }
+
+/* ---------- options & help ---------- */
+
+#settings {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  font-size: 0.9rem;
+}
+#settings summary { cursor: pointer; color: var(--muted); font-weight: 600; }
+#settings label { display: block; margin-top: 8px; }
+#settings select { font: inherit; margin-top: 4px; display: block; }
+
+.keys-help { margin: 0; font-size: 0.8rem; color: var(--muted); line-height: 1.8; }
+kbd {
+  font: inherit;
+  font-size: 0.75rem;
+  padding: 0 5px;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: #fff;
+}
+
+/* ---------- narrow screens: panel becomes a bottom sheet ---------- */
+
+@media (max-width: 900px) {
+  body { display: block; }
+  #score { padding: 16px 16px 50vh; }
+  #panel {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    max-height: 46vh;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+    padding: 12px 16px;
+    gap: 10px;
+  }
+  .keys-help { display: none; }
+}

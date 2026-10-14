@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Note-Name Helper</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="score" aria-label="Score">
+    <p id="status">Loading score…</p>
+  </main>
+
+  <aside id="panel" aria-label="Note names">
+    <header class="where">
+      <div>
+        <div id="where" class="where-main">Point at a column of notes</div>
+        <div id="where-sub" class="where-sub">or press → to step through the score</div>
+      </div>
+      <div class="step-buttons">
+        <button type="button" id="prev" title="Previous column (←)" aria-label="Previous column">←</button>
+        <button type="button" id="next" title="Next column (→)" aria-label="Next column">→</button>
+      </div>
+    </header>
+
+    <svg id="piano" role="img" aria-label="Piano keyboard"></svg>
+
+    <div id="groups" aria-live="polite"></div>
+
+    <details id="settings">
+      <summary>Options</summary>
+      <label><input type="checkbox" id="opt-held"> Show held notes</label>
+      <label><input type="checkbox" id="opt-octave"> Octave numbers (middle C = C4)</label>
+      <label><input type="checkbox" id="opt-offkey"> Flag notes outside the key signature</label>
+      <label>Group notes by
+        <select id="opt-group">
+          <option value="staff">staff they're printed on</option>
+          <option value="hand">hand (voice in the source)</option>
+        </select>
+      </label>
+    </details>
+
+    <p class="keys-help">
+      <kbd>←</kbd> <kbd>→</kbd> column · <kbd>↑</kbd> <kbd>↓</kbd> system ·
+      <kbd>Home</kbd> <kbd>End</kbd> · <kbd>Esc</kbd> clear
+    </p>
+  </aside>
+
+  <script src="app.js"></script>
+</body>
+</html>
